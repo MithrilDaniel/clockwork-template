@@ -76,7 +76,7 @@ Docs: https://gmerald.xyz/clockwork/docs/
 
 ## Commands
 `init <token>` write the config from the chain · `dry` a tick without signing · `press` the tick ·
-`claimcheck` what the escrow holds and what is unswept · `doctor` RPC, wallet, gas, recipient, Telegram ·
+`claimcheck` what the escrow holds and what is unswept · `dividends` (0.2.3) reads every payout the listed memestock distributors made to holders into a public book, no key, any folder, `DIVIDENDS_DIR` names where · `doctor` RPC, wallet, gas, recipient, Telegram ·
 `handback <address>` claim what is credited, then move the fee recipient · `holders` the holder count.
 
 ## What ClockWorks costs
