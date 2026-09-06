@@ -1,9 +1,9 @@
-# a clockwork machine
+# a ClockWorks machine
 
 your fees, on a clock, with receipts. this is the repository a machine runs in: one file you own,
 `clockwork.json`, one workflow that runs the machine every fifteen minutes, and `data/`, where the machine
 writes its ledger and its numbers. the only secret is your machine wallet's key, set as MACHINE_WALLET_KEY in
-this repository's settings. clockwork never holds it.
+this repository's settings. ClockWorks never holds it.
 
 ## set it up
 1. click "use this template" and create your copy, public or private.
@@ -17,4 +17,4 @@ this repository's settings. clockwork never holds it.
 6. your status page: `https://gmerald.xyz/clockwork/m/?r=<owner>/<repo>` after the first tick.
 
 docs: https://gmerald.xyz/clockwork/docs/ · with an assistant: `skills/clockwork/SKILL.md` · source:
-https://github.com/MithrilDaniel/clockwork · license: source-available, the clockwork license.
+https://github.com/MithrilDaniel/clockwork · license: source-available, the ClockWorks license.

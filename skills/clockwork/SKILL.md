@@ -1,11 +1,11 @@
 ---
 name: clockwork
-description: Set up and run a Clockwork machine for a pons v2 token on Robinhood Chain. Use when a founder asks to automate their creator fees, buy back and burn, build a treasury, or "run Clockwork" for their token. Walks the human through the machine wallet, the config, the repository, the secrets, the dry run, pointing fees at the machine, and going live. Never touches a private key.
+description: Set up and run a ClockWorks machine for a pons v2 token on Robinhood Chain. Use when a founder asks to automate their creator fees, buy back and burn, build a treasury, or "run ClockWorks" for their token. Walks the human through the machine wallet, the config, the repository, the secrets, the dry run, pointing fees at the machine, and going live. Never touches a private key.
 ---
 
-# Clockwork, with an assistant next to you
+# ClockWorks, with an assistant next to you
 
-Clockwork runs a token's creator fees on a clock: claims from the pons fee escrow, splits by percentages the
+ClockWorks runs a token's creator fees on a clock: claims from the pons fee escrow, splits by percentages the
 founder sets once, buys the token back and burns it in slices, sends the treasury share to a wallet that only
 grows, and prints every hash. It runs in the founder's own GitHub repository on a wallet the founder created.
 Docs: https://gmerald.xyz/clockwork/docs/
@@ -23,7 +23,7 @@ Docs: https://gmerald.xyz/clockwork/docs/
 1. The token address (a pons v2 launch on Robinhood Chain, chain id 4663).
 2. A fresh machine wallet address, created on their device, with about 0.02 ETH on Robinhood Chain.
 3. A treasury wallet address (a cold wallet is best).
-4. The split they want. Default: 45 burn / 45 treasury / 0 ops / 10 Clockwork. The Clockwork share is at
+4. The split they want. Default: 45 burn / 45 treasury / 0 ops / 10 ClockWorks. The ClockWorks share is at
    least 10 and is what pays for the software.
 5. The pace: gentle (a claim over a day), steady (over six hours, the default), or once (one slice).
 6. Telegram: their own bot token set as a secret (they create the bot in @BotFather) and the group's chat id from `clockwork tgcheck`, or `telegram.mode` set to `off` for now. The config defaults to `own`; with no token set, the machine logs and posts nothing.
@@ -77,6 +77,6 @@ Docs: https://gmerald.xyz/clockwork/docs/
 `claimcheck` what the escrow holds and what is unswept · `doctor` RPC, wallet, gas, recipient, Telegram ·
 `handback <address>` claim what is credited, then move the fee recipient · `holders` the holder count.
 
-## What Clockwork costs
-Ten percent of every claim, sent on chain by the machine, slice by slice, to the Clockwork wallet pinned in
+## What ClockWorks costs
+Ten percent of every claim, sent on chain by the machine, slice by slice, to the ClockWorks wallet pinned in
 the package (`0x6EA62Bd07FE08C7491543d495B42F6dA7ad298D0`). No setup fee. The chain is the invoice.
