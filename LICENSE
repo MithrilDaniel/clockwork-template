@@ -1,0 +1,12 @@
+Clockwork License 1.0 (source-available)
+
+Copyright (c) 2026 Mithril Labs / Daniel Volkov
+
+Permission is granted to use, copy, modify and run this software to operate a fee machine for a token you
+control, on the condition that the service share routing it contains (a share of every claim, at or above the
+floor pinned in the package, sent on-chain to the Clockwork address) is left in place and functioning.
+You may not remove, reduce below the floor, or redirect that routing, and you may not offer this software or a
+derivative of it to third parties as a service. Reading, auditing and reporting on the code is always permitted.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. IT MOVES REAL ASSETS ON A PUBLIC CHAIN UNDER
+YOUR OWN KEYS; YOU ARE RESPONSIBLE FOR WHAT IT DOES WITH THEM.
