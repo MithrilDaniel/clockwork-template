@@ -7,7 +7,7 @@ this repository's settings. ClockWorks never holds it.
 
 ## set it up
 1. click "use this template" and create your copy, public or private.
-2. in a terminal with node 20 or newer: `npx --yes clockwork-press@0.2.1 init <your token address>` writes
+2. in a terminal with node 20 or newer: `npx --yes clockwork-press@0.2.2 init <your token address>` writes
    your `clockwork.json` from the chain. fill in the machine wallet, the treasury wallet, the split, the pace.
    replace this repository's `clockwork.json` with it.
 3. settings, secrets and variables, actions: add `MACHINE_WALLET_KEY` (a fresh wallet with a little eth, never
