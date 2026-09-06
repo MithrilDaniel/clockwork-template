@@ -1,17 +1,96 @@
 {
  "version": 1,
- "chain": { "id": 4663 },
- "token": { "address": "0x0000000000000000000000000000000000000000", "symbol": "TOKEN", "name": "your token" },
- "pair": { "address": "0x1b0E319c6A659F002271B69dB8A7df2F911c153E", "symbol": "GME", "decimals": 18, "usdFeed": "0x27C71df6A64fB476468EdF256CF72c038baB5B67" },
- "launch": { "kind": "pons-v2", "factory": "0x7eD598BcEf8bd9Edd8C97A195C6d13f40801EC7e", "feeEscrow": "0xd3AFEB2a57f70eF218Aa82451c51B2fb0416Ac9e", "hook": "0xE5e702641Ea86F4ae6cC3cDaeD2B886f976Be044", "locker": "0x267444D099b10fB5Ed7c3Cc7B7c767AdcA574952", "vault": "0x42df2a798f82289E177311362e8f5ccC45c1219c", "launchBlock": 0 },
- "wallets": { "machine": "0x_FILL_ME_the_fresh_machine_wallet", "treasury": "0x_FILL_ME_your_treasury" },
- "split": { "burnBps": 4500, "treasuryBps": 4500, "opsBps": 0, "serviceBps": 1000 },
- "schedule": { "cadenceMin": 15, "weekends": true, "napUntil": null },
- "slices": { "rule": { "kind": "pace", "pace": "steady" }, "dip": { "on": false, "bandBps": 1000, "multiplier": 2 }, "quoteSanityBps": 1500, "maxSlippageBps": 300 },
- "burn": { "method": "burn" },
- "buyback": { "vest": "burn" },
- "claim": { "mode": "auto" },
- "telegram": { "mode": "shared", "cards": { "claim": true, "slice": true, "percent": true, "buys": false }, "buyFloorUsd": 50 },
- "site": { "enabled": true, "modules": ["treasury", "burns", "holders", "seats", "wallet", "rank", "ledger"], "seatThreshold": 250000 },
- "brand": { "name": "your token", "treasuryWord": "treasury", "burnWord": "burn", "accent": "#3DFF8E" }
+ "chain": {
+  "id": 4663
+ },
+ "token": {
+  "address": "0x0000000000000000000000000000000000000000",
+  "symbol": "TOKEN",
+  "name": "your token"
+ },
+ "pair": {
+  "address": "0x1b0E319c6A659F002271B69dB8A7df2F911c153E",
+  "symbol": "GME",
+  "decimals": 18,
+  "usdFeed": "0x27C71df6A64fB476468EdF256CF72c038baB5B67"
+ },
+ "launch": {
+  "kind": "pons-v2",
+  "factory": "0x7eD598BcEf8bd9Edd8C97A195C6d13f40801EC7e",
+  "feeEscrow": "0xd3AFEB2a57f70eF218Aa82451c51B2fb0416Ac9e",
+  "hook": "0xE5e702641Ea86F4ae6cC3cDaeD2B886f976Be044",
+  "locker": "0x267444D099b10fB5Ed7c3Cc7B7c767AdcA574952",
+  "vault": "0x42df2a798f82289E177311362e8f5ccC45c1219c",
+  "launchBlock": 0
+ },
+ "wallets": {
+  "machine": "0x_FILL_ME_the_fresh_machine_wallet",
+  "treasury": "0x_FILL_ME_your_treasury"
+ },
+ "split": {
+  "burnBps": 4500,
+  "treasuryBps": 4500,
+  "opsBps": 0,
+  "serviceBps": 1000
+ },
+ "schedule": {
+  "cadenceMin": 15,
+  "weekends": true,
+  "napUntil": null
+ },
+ "slices": {
+  "rule": {
+   "kind": "pace",
+   "pace": "steady"
+  },
+  "dip": {
+   "on": false,
+   "bandBps": 1000,
+   "multiplier": 2
+  },
+  "quoteSanityBps": 1500,
+  "maxSlippageBps": 300
+ },
+ "burn": {
+  "method": "burn"
+ },
+ "buyback": {
+  "vest": "burn"
+ },
+ "claim": {
+  "mode": "auto",
+  "floor": 5,
+  "atLeastEveryHours": 24
+ },
+ "telegram": {
+  "mode": "own",
+  "cards": {
+   "claim": true,
+   "slice": true,
+   "percent": true,
+   "buys": false
+  },
+  "buyFloorUsd": 50,
+  "chatId": ""
+ },
+ "site": {
+  "enabled": true,
+  "modules": [
+   "treasury",
+   "burns",
+   "holders",
+   "seats",
+   "wallet",
+   "rank",
+   "ledger"
+  ],
+  "seatThreshold": 250000
+ },
+ "brand": {
+  "name": "your token",
+  "treasuryWord": "treasury",
+  "burnWord": "burn",
+  "accent": "#0B6E4F",
+  "avatar": ""
+ }
 }

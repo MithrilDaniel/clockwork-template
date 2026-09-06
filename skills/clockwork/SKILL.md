@@ -26,8 +26,9 @@ Docs: https://gmerald.xyz/clockwork/docs/
 4. The split they want. Default: 45 burn / 45 treasury / 0 ops / 10 Clockwork. The Clockwork share is at
    least 10 and is what pays for the software.
 5. The pace: gentle (a claim over a day), steady (over six hours, the default), or once (one slice).
-6. Telegram: their own bot token set as a secret (they create the bot in @BotFather), or off for now.
-7. How often to claim: `claim.floor` is how much of the pairing asset must be waiting in the escrow before the machine claims (default 5), and `claim.atLeastEveryHours` claims whatever waits at least that often (default 24). A claim costs gas and posts a card; most machines keep the defaults.
+6. Telegram: their own bot token set as a secret (they create the bot in @BotFather) and the group's chat id from `clockwork tgcheck`, or `telegram.mode` set to `off` for now. The config defaults to `own`; with no token set, the machine logs and posts nothing.
+7. The brand: `brand.name`, the words for treasury and burn (`brand.treasuryWord`, `brand.burnWord`, `brand.claimWord`), `brand.avatar` (an image URL the status page and the wallet card use), and `brand.art` (one image or short mp4 URL per Telegram card).
+8. How often to claim: `claim.floor` is how much of the pairing asset must be waiting in the escrow before the machine claims (default 5), and `claim.atLeastEveryHours` claims whatever waits at least that often (default 24). A claim costs gas and posts a card; most machines keep the defaults.
 
 ## The steps
 1. **Write the config.** In a terminal with Node 20 or newer, in an empty folder:
