@@ -53,7 +53,9 @@ Docs: https://gmerald.xyz/clockwork/docs/
    `transferCreatorFeeRecipient(token, machineWallet)` on the pons factory
    `0x7eD598BcEf8bd9Edd8C97A195C6d13f40801EC7e`. Prepare the calldata for them (function selector
    `0x2931861b`, then the token address and the machine address each left-padded to 32 bytes) and tell them
-   to send it as a raw transaction from that wallet with value 0. The pons UI does not show this function;
+   to send it as a raw transaction from that wallet with value 0, or point them at
+   https://gmerald.xyz/clockwork/point/?token=<token>&machine=<machine>, which reads the chain, shows what is
+   owed, and prepares the same transaction for their own wallet. The pons UI does not show this function;
    the contract has it and it takes effect immediately.
 6. **Go live.** Set `claim.mode` to `auto` in `clockwork.json` if it is not already, commit, and let the
    workflow's schedule run it on the quarter hour. Optional: a cron-job.org job that POSTs to
