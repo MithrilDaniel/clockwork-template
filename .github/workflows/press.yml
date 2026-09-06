@@ -17,7 +17,21 @@ jobs:
       # an exact version, never @latest: the machine key is in this step's environment, so the code that
       # runs here is only ever a build we published with provenance and you chose by hand. to update,
       # change the number (docs/PUBLISH.md in the clockwork repo lists releases).
-      - run: npx --yes clockwork-press@0.2.2 ${{ inputs.job || 'press' }}
+      # two clocks can fire within a minute of each other; the machine's own guard reads its last run from the
+      # checkout, and a checkout can be a few seconds behind the previous run's push. so ask github directly:
+      # if another tick committed its numbers less than ten minutes ago, this one leaves before it signs anything.
+      - name: the clock's guard
+        id: guard
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          git pull -q --rebase origin main || true
+          last=$(gh api "repos/${{ github.repository }}/commits?path=data/press-stats.json&per_page=1" --jq '.[0].commit.committer.date' 2>/dev/null || echo "")
+          if [ -n "$last" ] && [ "${{ inputs.job || 'press' }}" = "press" ]; then
+            age=$(( $(date +%s) - $(date -u -d "$last" +%s) ))
+            if [ "$age" -lt 600 ]; then echo "another tick committed its numbers ${age}s ago; leaving"; echo "skip=1" >> "$GITHUB_OUTPUT"; fi
+          fi
+      - if: steps.guard.outputs.skip != '1'
+        run: npx --yes clockwork-press@0.2.2 ${{ inputs.job || 'press' }}
         env:
           npm_config_ignore_scripts: "true"   # no package lifecycle scripts run on install; only the clockwork bin runs
           MACHINE_WALLET_KEY: ${{ secrets.MACHINE_WALLET_KEY }}
