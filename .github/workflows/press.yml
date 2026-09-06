@@ -17,7 +17,7 @@ jobs:
       # an exact version, never @latest: the machine key is in this step's environment, so the code that
       # runs here is only ever a build we published with provenance and you chose by hand. to update,
       # change the number (docs/PUBLISH.md in the clockwork repo lists releases).
-      - run: npx --yes clockwork-press@0.2.0 ${{ inputs.job || 'press' }}
+      - run: npx --yes clockwork-press@0.2.1 ${{ inputs.job || 'press' }}
         env:
           npm_config_ignore_scripts: "true"   # no package lifecycle scripts run on install; only the clockwork bin runs
           MACHINE_WALLET_KEY: ${{ secrets.MACHINE_WALLET_KEY }}

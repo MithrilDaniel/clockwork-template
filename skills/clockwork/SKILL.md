@@ -27,10 +27,11 @@ Docs: https://gmerald.xyz/clockwork/docs/
    least 10 and is what pays for the software.
 5. The pace: gentle (a claim over a day), steady (over six hours, the default), or once (one slice).
 6. Telegram: their own bot token set as a secret (they create the bot in @BotFather), or off for now.
+7. How often to claim: `claim.floor` is how much of the pairing asset must be waiting in the escrow before the machine claims (default 5), and `claim.atLeastEveryHours` claims whatever waits at least that often (default 24). A claim costs gas and posts a card; most machines keep the defaults.
 
 ## The steps
 1. **Write the config.** In a terminal with Node 20 or newer, in an empty folder:
-   `npx --yes clockwork-press@0.2.0 init <token address>`
+   `npx --yes clockwork-press@0.2.1 init <token address>`
    It reads the launch from the pons factory and writes `clockwork.json`. Fill `wallets.machine`,
    `wallets.treasury`, the `split`, and `slices.rule` (`{ "kind": "pace", "pace": "steady" }`). If they want
    Telegram, set `telegram.mode` to `own` and `telegram.chatId` to their group id. Do not put a key or a token
@@ -46,7 +47,7 @@ Docs: https://gmerald.xyz/clockwork/docs/
    the float, and `dry: would swap …`. The machine refuses to run if the key belongs to a different wallet
    than `wallets.machine`; that is the guard working, not a bug.
 5. **Point the fees at the machine.** First claim what is already owed to the current recipient
-   (`npx --yes clockwork-press@0.2.0 claimcheck` from the folder with `clockwork.json` prints it), because a
+   (`npx --yes clockwork-press@0.2.1 claimcheck` from the folder with `clockwork.json` prints it), because a
    recipient change does not move credited balances. Then the current recipient signs
    `transferCreatorFeeRecipient(token, machineWallet)` on the pons factory
    `0x7eD598BcEf8bd9Edd8C97A195C6d13f40801EC7e`. Prepare the calldata for them (function selector
