@@ -24,6 +24,13 @@ jobs:
         id: guard
         env: { GH_TOKEN: "${{ github.token }}" }
         run: |
+          # a fresh copy of this template has not been filled in yet: placeholder token, placeholder wallets.
+          # leave quietly instead of failing every quarter hour in someone's inbox. fill in clockwork.json
+          # (gmerald.xyz/clockwork/settings does it in the browser) and the next tick picks it up.
+          if grep -qi '"address": *"0x0*"' clockwork.json || grep -q '"machine": *"0x_FILL_ME' clockwork.json; then
+            echo "clockwork.json is still the template: set token.address and the wallets, then this clock starts."
+            echo "skip=1" >> "$GITHUB_OUTPUT"; exit 0
+          fi
           git pull -q --rebase origin main || true
           last=$(gh api "repos/${{ github.repository }}/commits?path=data/press-stats.json&per_page=1" --jq '.[0].commit.committer.date' 2>/dev/null || echo "")
           if [ -n "$last" ] && [ "${{ inputs.job || 'press' }}" = "press" ]; then
@@ -31,7 +38,7 @@ jobs:
             if [ "$age" -lt 600 ]; then echo "another tick committed its numbers ${age}s ago; leaving"; echo "skip=1" >> "$GITHUB_OUTPUT"; fi
           fi
       - if: steps.guard.outputs.skip != '1'
-        run: npx --yes clockwork-press@0.2.3 ${{ inputs.job || 'press' }}
+        run: npx --yes clockwork-press@0.2.4 ${{ inputs.job || 'press' }}
         env:
           npm_config_ignore_scripts: "true"   # no package lifecycle scripts run on install; only the clockwork bin runs
           MACHINE_WALLET_KEY: ${{ secrets.MACHINE_WALLET_KEY }}
