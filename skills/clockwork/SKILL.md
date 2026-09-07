@@ -37,7 +37,10 @@ Docs: https://gmerald.xyz/clockwork/docs/
    (after step 2) writes `clockwork.json` into the new repository as a commit, given a fine-grained GitHub
    token for that one repository (Contents read and write). The terminal way, same file: with Node 20 or newer,
    in an empty folder, `npx --yes clockwork-press@0.2.4 init <token address>`.
-   It reads the launch from the pons factory and writes `clockwork.json`. Fill `wallets.machine`,
+   It reads the launch from the pons factory and writes `clockwork.json`. The page also offers three bundles,
+   Patient, Steady and Aggressive, that set the claim rule, pace, dip mode, guardrails and cards together (the
+   split stays the founder's); a new machine starts on Steady. Offer the human the three in one line and set the
+   one they pick. Fill `wallets.machine`,
    `wallets.treasury`, the `split`, and `slices.rule` (`{ "kind": "pace", "pace": "steady" }`). If they want
    Telegram, set `telegram.mode` to `own` and `telegram.chatId` to their group id. Do not put a key or a token
    in this file; it is public by design.
