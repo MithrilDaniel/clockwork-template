@@ -4,7 +4,7 @@ on:
     - cron: "3,18,33,48 * * * *"   # the backup clock; the primary is cron-job.org hitting workflow_dispatch
   workflow_dispatch:
     inputs:
-      job: { description: "press | dry | doctor | claimcheck | holders | tgcheck", default: press, type: choice, options: [press, dry, doctor, claimcheck, holders, tgcheck] }
+      job: { description: "press | dry | doctor | claimcheck | holders | tgcheck | board | boardcheck", default: press, type: choice, options: [press, dry, doctor, claimcheck, holders, tgcheck, board, boardcheck] }
 permissions: { contents: write }
 concurrency: { group: clockwork, cancel-in-progress: false }
 jobs:
@@ -15,8 +15,8 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with: { node-version: 22 }
       # an exact version, never @latest: the machine key is in this step's environment, so the code that
-      # runs here is only ever a build we published with provenance and you chose by hand. to update,
-      # change the number (docs/PUBLISH.md in the clockwork repo lists releases).
+      # runs here is only ever a release you chose by hand. releases are published by hand and carry no npm
+      # provenance record yet. to update, change the number (docs/PUBLISH.md in the clockwork repo lists releases).
       # two clocks can fire within a minute of each other; the machine's own guard reads its last run from the
       # checkout, and a checkout can be a few seconds behind the previous run's push. so ask github directly:
       # if another tick committed its numbers less than ten minutes ago, this one leaves before it signs anything.
@@ -38,7 +38,7 @@ jobs:
             if [ "$age" -lt 600 ]; then echo "another tick committed its numbers ${age}s ago; leaving"; echo "skip=1" >> "$GITHUB_OUTPUT"; fi
           fi
       - if: steps.guard.outputs.skip != '1'
-        run: npx --yes clockwork-press@0.2.4 ${{ inputs.job || 'press' }}
+        run: npx --yes clockwork-press@0.4.3 ${{ inputs.job || 'press' }}
         env:
           npm_config_ignore_scripts: "true"   # no package lifecycle scripts run on install; only the clockwork bin runs
           MACHINE_WALLET_KEY: ${{ secrets.MACHINE_WALLET_KEY }}

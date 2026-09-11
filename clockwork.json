@@ -9,10 +9,9 @@
   "name": "your token"
  },
  "pair": {
-  "address": "0x1b0E319c6A659F002271B69dB8A7df2F911c153E",
-  "symbol": "GME",
-  "decimals": 18,
-  "usdFeed": "0x27C71df6A64fB476468EdF256CF72c038baB5B67"
+  "address": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+  "symbol": "USDG",
+  "decimals": 6
  },
  "launch": {
   "kind": "pons-v2",
@@ -28,10 +27,11 @@
   "treasury": "0x_FILL_ME_your_treasury"
  },
  "split": {
-  "burnBps": 4500,
-  "treasuryBps": 4500,
+  "burnBps": 0,
+  "treasuryBps": 0,
   "opsBps": 0,
-  "serviceBps": 1000
+  "serviceBps": 1000,
+  "boardBps": 0
  },
  "schedule": {
   "cadenceMin": 15,
@@ -85,6 +85,9 @@
    "ledger"
   ],
   "seatThreshold": 250000
+ },
+ "board": {
+  "rule": "at-drop"
  },
  "brand": {
   "name": "your token",
