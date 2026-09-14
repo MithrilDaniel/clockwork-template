@@ -24,8 +24,10 @@ Docs: https://gmerald.xyz/clockwork/docs/
 - Past tense for what the machine did; no promises about what holders will receive.
 
 ## What you need from the human before you start
-1. The token address (a pons v2 launch on Robinhood Chain, chain id 4663), paired with USDG, WETH or native ETH.
-   clockwork-press 0.4.3 serves no other pair: a file with a stock-token pair or any other pair does not load.
+1. The token address (a pons v2 launch on Robinhood Chain, chain id 4663), paired with USDG, WETH, native ETH or one
+   of the 23 Robinhood stock tokens clockwork-press 0.4.4 has a USDG route for (AAPL, AMD, AMZN, COIN, COST, DJT, GLD,
+   GME, GOOGL, MSFT, MSTR, MU, NU, NVDA, PLTR, RBLX, SGOV, SNAP, SNDK, SPCX, SPY, TSLA, UPS). A file with any other pair
+   does not load.
 2. A fresh machine wallet address, created on their device, with about 0.02 ETH on Robinhood Chain.
 3. A treasury wallet address (a cold wallet is best).
 4. The split, as whole basis points in `split` that add up to 10000 (22.5% is 2250). Three presets for each kind of
@@ -49,7 +51,7 @@ Docs: https://gmerald.xyz/clockwork/docs/
    - `"at-drop"`, the default when the key is absent: the wallets holding a seat in the holder scan taken at the drop. A seat bought at 23:50 is in that night's drop. On a token with a creator tax this is usually enough.
    - `"lowest-since-last-drop"`: a seat counts its lowest balance in the hourly holder scans since the last drop, and a seat bought after the first of those scans waits one more drop. Suits tokens with no creator tax.
    Wallets that hold a seat's worth but should not be paid (the founder's own, a partner's) go in `board.exclude`. No `boardBps` means no board.
-10. Keep half: the ops share goes to `wallets.ops`. With no `pair.usdFeed` in the file, as on every USDG, WETH and native ETH pair, it goes out on every slice. With a feed (in 0.4.3 only the house's GME pair has one) it waits in the machine wallet while the peg check does not pass, and goes out with the first slice whose check does. What is held still goes to `wallets.ops` if the human later drops the ops share; if they remove `wallets.ops` as well, it goes back to the float and is split with the rest.
+10. Keep half: the ops share goes to `wallets.ops`. With no `pair.usdFeed` in the file, as on every USDG, WETH and native ETH pair, it goes out on every slice. With a feed (`init` writes the pinned Chainlink feed on a stock pair that has one) it waits in the machine wallet while the peg check does not pass, and goes out with the first slice whose check does. What is held still goes to `wallets.ops` if the human later drops the ops share; if they remove `wallets.ops` as well, it goes back to the float and is split with the rest.
 
 ## The steps
 1. **Write the config.** The no-terminal way: open
@@ -57,7 +59,7 @@ Docs: https://gmerald.xyz/clockwork/docs/
    the browser, fills every knob with the defaults, asks for the machine wallet and the treasury wallet, and
    (after step 2) writes `clockwork.json` into the new repository as a commit, given a fine-grained GitHub
    token for that one repository (Contents read and write). The terminal way, same file: with Node 20 or newer,
-   in an empty folder, `npx --yes clockwork-press@0.4.3 init <token address>`.
+   in an empty folder, `npx --yes clockwork-press@0.4.4 init <token address>`.
    It reads the launch from the pons factory and writes `clockwork.json` with every leg of the split at 0, so the
    file does not load until the human picks a split. The page also offers three bundles,
    Patient, Steady and Aggressive, that set the claim rule, pace, dip mode, guardrails and cards together (the
@@ -78,7 +80,7 @@ Docs: https://gmerald.xyz/clockwork/docs/
    its dry run shows `dry: would stash …` and the other legs, and no swap. The machine refuses to run if the key belongs
    to a different wallet than `wallets.machine`; that is the guard working, not a bug.
 5. **Point the fees at the machine.** First claim what is already owed to the current recipient
-   (`npx --yes clockwork-press@0.4.3 claimcheck` from the folder with `clockwork.json` prints it), because a
+   (`npx --yes clockwork-press@0.4.4 claimcheck` from the folder with `clockwork.json` prints it), because a
    recipient change does not move credited balances. Then the current recipient signs
    `transferCreatorFeeRecipient(token, machineWallet)` on the pons factory
    `0x7eD598BcEf8bd9Edd8C97A195C6d13f40801EC7e`. Prepare the calldata for them (function selector
@@ -109,8 +111,13 @@ Docs: https://gmerald.xyz/clockwork/docs/
   the same line when every slice would hold.
 - `clockwork.json: native ETH pairs have no burn leg until 0.5.0: set burnBps to 0 and give that share to the treasury, the board or ops`:
   the file gives a native ETH pair a burn share. Use a native preset above.
-- `clockwork.json: clockwork-press 0.4.3 serves pons tokens paired with USDG, WETH or native ETH; stock-token and other pairs come in a later release`:
-  the token is paired with a stock token or another asset this release does not serve, so no job loads the file.
+- `clockwork.json: clockwork-press 0.4.4 serves pons tokens paired with USDG, WETH, native ETH or a Robinhood stock token it has a USDG route for (AAPL, AMD, AMZN, COIN, COST, DJT, GLD, GME, GOOGL, MSFT, MSTR, MU, NU, NVDA, PLTR, RBLX, SGOV, SNAP, SNDK, SPCX, SPY, TSLA, UPS); other pairs come in a later release`:
+  the token is paired with an asset this release does not serve, so no job loads the file.
+- `clockwork.json: pair.usdFeed for SPY must be the Chainlink feed this release pins, 0x3197…9f6A, or be left out` (or
+  `this release pins no Chainlink feed for GLD; leave pair.usdFeed out`): a stock pair's feed is the package's, never the file's.
+- `[service] 0.3000 SPY held for ClockWorks waits: the price feed is 40 hours old` (or `the pool pays 550 bps under the
+  price anchor`, `the issuer paused the price oracle`): on a stock pair the ClockWorks share is swapped to USDG only when the
+  sale is checked; the reason it waits is also in `press-stats.json` under `service.waiting`. Nothing is wrong; it waits.
 - `holding: the gme token is paused by its issuer`: the issuer of the stock token paused it, or paused every stock
   token. No claim, no drop and no slice until the pause lifts; one card when it starts.
 - `holding: the treasury wallet is blocked by the gme issuer` (or the machine, service or ops wallet): that wallet is
@@ -132,11 +139,23 @@ rule, the stock guard, Telegram · `handback <address>` claim what is credited, 
 distributors made to holders into a public book, no key, any folder; `PAYOUTS_DIR` names where.
 
 ## Stock pairs
-clockwork-press 0.4.3 runs a stock-token pair only for the house, GMERALD, whose machine runs on a GME pair: on a stock
-pair the service leg would be sent in the stock token, so any other file with one does not load. Every Robinhood stock
-token shares one issuer pause and one blocklist. On the house's pair the machine reads both every tick, with nothing to
-configure: it holds while the token is paused or one of its own wallets is blocked, never pays a blocked seat, and
-records share counts with the token's multiplier beside the raw amounts (`amountUI`, `paidUI`, `pairMultiplier`).
+From clockwork-press 0.4.4 a token paired with one of the 23 pinned Robinhood stock tokens is served like any other. Its
+burn, treasury, board and ops legs move the stock token as they do for the house. Its ClockWorks share is different: a
+Robinhood stock token is a Regulation S security the ClockWorks wallet never receives, so every slice sets that share
+aside in the machine wallet (`serviceHeldGme` on the row, `serviceHeld` in the ledger's meta, out of the float), and once a
+tick the machine sells what is held for USDG on the pinned pool (`STOCK_ROUTES` in the package: a uniswap v3 or v4 USDG
+pool per stock) and sends the USDG to the ClockWorks wallet. The sale runs only when it is checked: the stock guard holds
+nothing, the issuer's oracle is not paused, the price anchor answered (the pinned Chainlink feed, at most 36 hours old;
+on COST, DJT, GLD, NU, RBLX, SNAP and UPS, which have no feed, dexscreener's volume-weighted price), and the pool's own
+quote sits within 300 bps of it. At most 2,500 USD a swap (500 on a thin pool); the rest waits for the next tick, and
+nothing under 10 USD moves. A share held on a Friday goes out when the feed moves again. Both transactions (the swap,
+then the USDG transfer) are signed and written down before they are sent, so a run that stops between the two never
+sends twice. `doctor` prints the route, the anchor's price and age, the pool's gap and what is held.
+
+Every Robinhood stock token shares one issuer pause and one blocklist. On a stock pair the machine reads both every
+tick, with nothing to configure: it holds while the token is paused or one of its own wallets is blocked, never pays a
+blocked seat, and records share counts with the token's multiplier beside the raw amounts (`amountUI`, `paidUI`,
+`pairMultiplier`). The ClockWorks wallet is not on that list on a stock pair, because it never receives the stock.
 USDG, WETH and native ETH pairs pass straight through.
 
 ## What the machine approves
@@ -149,6 +168,9 @@ approves nothing for one.
 
 ## What ClockWorks costs
 10% of the creator fees the machine claims, and 5% on the part of a UTC day above a step: 2,000 USDG a day on a USDG
-pair, 0.8 ETH on a native ETH pair, 0.8 WETH on a WETH pair, the three pairs clockwork-press 0.4.3 serves. The step counts only what the pons escrow paid the machine itself, read from the escrow's own logs; fees
-claimed by hand or sent in are charged 10%. The machine sends it on chain, slice by slice, to the ClockWorks wallet
-pinned in the package (`0x6EA62Bd07FE08C7491543d495B42F6dA7ad298D0`). No setup fee. The chain is the invoice.
+pair, 0.8 ETH on a native ETH pair, 0.8 WETH on a WETH pair, and on a stock pair the shares that were worth 2,000 USD on
+2026-09-14 (2.625 SPY, 9.3015 NVDA, 94.9848 GME; the whole table is `STOCK_ROUTES` in the package), pinned, not read
+live. The step counts only what the pons escrow paid the machine itself, read from the escrow's own logs; fees claimed
+by hand or sent in are charged 10%. The machine sends it on chain, slice by slice, to the ClockWorks wallet pinned in
+the package (`0x6EA62Bd07FE08C7491543d495B42F6dA7ad298D0`): in the pair asset on a USDG, WETH or native ETH pair, and
+as USDG from the swap above on a stock pair. No setup fee. The chain is the invoice.
