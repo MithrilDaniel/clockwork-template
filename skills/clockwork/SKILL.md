@@ -25,7 +25,7 @@ Docs: https://gmerald.xyz/clockwork/docs/
 
 ## What you need from the human before you start
 1. The token address (a pons v2 launch on Robinhood Chain, chain id 4663), paired with USDG, WETH, native ETH or one
-   of the 23 Robinhood stock tokens clockwork-press 0.4.4 has a USDG route for (AAPL, AMD, AMZN, COIN, COST, DJT, GLD,
+   of the 23 Robinhood stock tokens clockwork-press 0.4.5 has a USDG route for (AAPL, AMD, AMZN, COIN, COST, DJT, GLD,
    GME, GOOGL, MSFT, MSTR, MU, NU, NVDA, PLTR, RBLX, SGOV, SNAP, SNDK, SPCX, SPY, TSLA, UPS). A file with any other pair
    does not load.
 2. A fresh machine wallet address, created on their device, with about 0.02 ETH on Robinhood Chain.
@@ -59,7 +59,7 @@ Docs: https://gmerald.xyz/clockwork/docs/
    the browser, fills every knob with the defaults, asks for the machine wallet and the treasury wallet, and
    (after step 2) writes `clockwork.json` into the new repository as a commit, given a fine-grained GitHub
    token for that one repository (Contents read and write). The terminal way, same file: with Node 20 or newer,
-   in an empty folder, `npx --yes clockwork-press@0.4.4 init <token address>`.
+   in an empty folder, `npx --yes clockwork-press@0.4.5 init <token address>`.
    It reads the launch from the pons factory and writes `clockwork.json` with every leg of the split at 0, so the
    file does not load until the human picks a split. The page also offers three bundles,
    Patient, Steady and Aggressive, that set the claim rule, pace, dip mode, guardrails and cards together (the
@@ -80,7 +80,7 @@ Docs: https://gmerald.xyz/clockwork/docs/
    its dry run shows `dry: would stash …` and the other legs, and no swap. The machine refuses to run if the key belongs
    to a different wallet than `wallets.machine`; that is the guard working, not a bug.
 5. **Point the fees at the machine.** First claim what is already owed to the current recipient
-   (`npx --yes clockwork-press@0.4.4 claimcheck` from the folder with `clockwork.json` prints it), because a
+   (`npx --yes clockwork-press@0.4.5 claimcheck` from the folder with `clockwork.json` prints it), because a
    recipient change does not move credited balances. Then the current recipient signs
    `transferCreatorFeeRecipient(token, machineWallet)` on the pons factory
    `0x7eD598BcEf8bd9Edd8C97A195C6d13f40801EC7e`. Prepare the calldata for them (function selector
@@ -111,7 +111,7 @@ Docs: https://gmerald.xyz/clockwork/docs/
   the same line when every slice would hold.
 - `clockwork.json: native ETH pairs have no burn leg until 0.5.0: set burnBps to 0 and give that share to the treasury, the board or ops`:
   the file gives a native ETH pair a burn share. Use a native preset above.
-- `clockwork.json: clockwork-press 0.4.4 serves pons tokens paired with USDG, WETH, native ETH or a Robinhood stock token it has a USDG route for (AAPL, AMD, AMZN, COIN, COST, DJT, GLD, GME, GOOGL, MSFT, MSTR, MU, NU, NVDA, PLTR, RBLX, SGOV, SNAP, SNDK, SPCX, SPY, TSLA, UPS); other pairs come in a later release`:
+- `clockwork.json: clockwork-press 0.4.5 serves pons tokens paired with USDG, WETH, native ETH or a Robinhood stock token it has a USDG route for (AAPL, AMD, AMZN, COIN, COST, DJT, GLD, GME, GOOGL, MSFT, MSTR, MU, NU, NVDA, PLTR, RBLX, SGOV, SNAP, SNDK, SPCX, SPY, TSLA, UPS); other pairs come in a later release`:
   the token is paired with an asset this release does not serve, so no job loads the file.
 - `clockwork.json: pair.usdFeed for SPY must be the Chainlink feed this release pins, 0x3197…9f6A, or be left out` (or
   `this release pins no Chainlink feed for GLD; leave pair.usdFeed out`): a stock pair's feed is the package's, never the file's.
